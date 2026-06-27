@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Saldrías conmigo?</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f3e8ff;
+            --card-bg: #ffffff;
+            --accent-purple: #a855f7;
+            --accent-hover: #9333ea;
+            --text-main: #374151;
+            --text-muted: #6b7280;
+            --code-color: #10b981;
+            --error-red: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .window {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 480px;
+            padding: 35px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .meme-img {
+            max-width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin: 10px auto;
+            border-radius: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0 5px 0;
+            color: var(--text-main);
+        }
+
+        .code-line {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .code-line span {
+            color: var(--code-color);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s, transform 0.1s;
+            box-sizing: border-box;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-card {
+            background-color: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 14px 18px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .option-card:hover {
+            border-color: var(--accent-purple);
+            background-color: #fff9c4;
+        }
+
+        .option-card.selected {
+            border-color: var(--accent-purple);
+            background-color: #f3e8ff;
+        }
+
+        .option-badge {
+            background-color: #e5e7eb;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .option-card.selected .option-badge {
+            background-color: var(--accent-purple);
+            color: white;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f9fafb;
+            padding: 10px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .hidden { display: none !important; }
+
+        #error-msg {
+            color: var(--error-red);
+            font-size: 13px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Estilos para los botones del perdón */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            height: 60px;
+            position: relative;
+        }
+        .btn-forgive {
+            width: auto;
+            min-width: 120px;
+        }
+        #btn-no {
+            position: absolute;
+            background-color: #6b7280;
+        }
+        #btn-no:hover { background-color: #4b5563; }
+    </style>
+</head>
+<body>
+
+    <div class="window">
+        
+        <div id="screen-1">
+            <img class="meme-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Nidm9tZ3p5NXF3Ym00bXp3dDN0Z3V5ZXpnd3VwM280eXp6N3B6NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/C9x8gX02SnMIoAclby/giphy.gif">
+            <h1>¿Saldrías conmigo?</h1>
+            <div class="code-line">// ejecutando: <span>peticion_romantica_v3.0.cat</span></div>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">Para desbloquear la invitación primero debes pasar el Test de Identidad Pareja. ¿Lista? 🤭</p>
+            <button class="btn-primary" onclick="nextScreen(1, 'quiz')">[ INICIAR TEST ]</button>
+        </div>
+
+        <div id="screen-quiz" class="hidden">
+            <img class="meme-img" src="https://i.pinimg.com/736x/8a/3d/8d/8a3d8df589a69634e2c2f7823e5904d6.jpg">
+            <h1 id="quiz-title">Test de Identidad</h1>
+            <div class="code-line">// pregunta <span id="quiz-progress">1/10</span></div>
+            <p id="quiz-question" style="font-weight: 600; margin-bottom: 20px; min-height: 45px;"></p>
+            <div id="quiz-options" class="options-list"></div>
+            <div id="error-msg" class="hidden">Respuesta incorrecta. ¡Inténtalo de nuevo! 🤔</div>
+        </div>
+
+        <div id="screen-date" class="hidden">
+            <img class="meme-img" src="https://i.pinimg.com/originals/de/8a/ef/de8aef4070a7df06443abec8f4e2f94d.jpg">
+            <h1>¡Test superado! Acceso concedido 📅</h1>
+            <div class="code-line">// módulo: <span>agenda.sync</span></div>
+            <div class="form-group">
+                <label>Fecha para vernos:</label>
+                <input type="date" id="input-date">
+            </div>
+            <div class="form-group">
+                <label>Hora:</label>
+                <input type="time" id="input-time">
+            </div>
+            <button class="btn-primary" onclick="saveDateTime()">[ CONFIRMAR AGENDA ]</button>
+        </div>
+
+        <div id="screen-activity" class="hidden">
+            <img class="meme-img" src="https://i.pinimg.com/originals/ae/49/7c/ae497c36a32338144070a27e462d733e.jpg">
+            <h1>¿Qué te gustaría hacer? 🗺️</h1>
+            <div class="code-line">// módulo: <span>plan_principal.select</span></div>
+            <div class="options-list">
+                <div class="option-card" onclick="selectActivity(this, 'Salir a comer 🍔')">
+                    <div class="option-badge">A</div><div class="option-text">Salir a comer</div>
+                </div>
+                <div class="option-card" onclick="selectActivity(this, 'Salir a pasear 🌳')">
+                    <div class="option-badge">B</div><div class="option-text">Salir a pasear</div>
+                </div>
+                <div class="option-card" onclick="selectActivity(this, 'Ir al cine 🎬')">
+                    <div class="option-badge">C</div><div class="option-text">Ir al cine</div>
+                </div>
+                <div class="option-card" onclick="selectActivity(this, 'Aventura Sorpresa ✨')">
+                    <div class="option-badge">D</div><div class="option-text">Aventura Sorpresa</div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="goToSubActivity()">[ CONFIGURAR DETALLES ]</button>
+        </div>
+
+        <div id="screen-subactivity" class="hidden">
+            <img class="meme-img" id="subactivity-img" src="">
+            <h1 id="subactivity-title">Detalles del plan</h1>
+            <div class="code-line">// módulo: <span>sub_plan.config</span></div>
+            <div id="subactivity-options" class="options-list"></div>
+            <button class="btn-primary" onclick="saveSubSelection()">[ GUARDAR CONFIGURACIÓN ]</button>
+        </div>
+
+        <div id="screen-summary" class="hidden">
+            <img class="meme-img" src="https://preview.redd.it/what-are-your-favorite-crying-cat-memes-v0-8g6fscz897fc1.png?width=640&crop=smart&auto=webp&s=cb3603417fc7d2a501df5e8c15694209dfa5db03">
+            <h1>Resumen del Plan</h1>
+            <div class="code-line">// compilación: <span>100% exitosa</span></div>
+            <div id="summary-container" style="margin-bottom: 25px;"></div>
+            <button class="btn-primary" onclick="nextScreen('summary', 'forgive')">[ CONTINUAR AL PASO FINAL ]</button>
+        </div>
+
+        <div id="screen-forgive" class="hidden">
+            <img class="meme-img" src="https://i.pinimg.com/736x/8e/bc/0b/8ebc0bc68ba81df70c534be89b532d88.jpg">
+            <h1>Entonces... ¿Me perdonas? 🥺❤️</h1>
+            <div class="code-line" style="color: var(--error-red);">// comando: <span>forgive_and_forget.sh</span></div>
+            <div class="btn-group">
+                <button id="btn-si" class="btn-primary btn-forgive" onclick="finalSuccess()">¡SÍ! ❤️</button>
+                <button id="btn-no" class="btn-primary btn-forgive">No</button>
+            </div>
+        </div>
+
+        <div id="screen-success" class="hidden">
+            <img class="meme-img" src="https://i.pinimg.com/736x/21/df/b7/21dfb7389df0b6fb89db7885b008d519.jpg">
+            <h1 style="color: #ec4899;">¡Te amo! Gracias por perdonarme 🎉</h1>
+            <div class="code-line">// status: <span>COMPLETADO</span></div>
+            <p style="color: var(--text-muted); font-size: 14px;">Redirigiendo a WhatsApp para confirmar los datos... 💜</p>
+        </div>
+
+    </div>
+
+    <script>
+        let userData = { date: '', time: '', mainPlan: '', subPlan: '' };
+
+        // --- CUESTIONARIO DE 10 PREGUNTAS ---
+        const myQuestions = [
+            { q: "1. ¿Cuáles son mis apellidos?", options: ["Silva Marquez", "Ramirez Silva", "Marquez Lopez", "Silva Gonzalez"], correct: 0 },
+            { q: "2. ¿Qué es algo sin lo que yo no pueda vivir?", options: ["El café por la mañana", "Sin un mensaje tuyo", "Mi consola de videojuegos", "Ver series de televisión"], correct: 1 },
+            { q: "3. ¿Cuándo es mi cumpleaños?", options: ["05 de Mayo", "12 de Junio", "19 de Mayo", "19 de Abril"], correct: 2 },
+            { q: "4. ¿Cuál es mi color favorito? (¡Cuidado, trampa!)", options: ["Solo el Azul", "Solo el Negro", "Rojo y Blanco", "Azul y Negro"], correct: 3 },
+            { q: "5. ¿Cuál es mi canción favorita?", options: ["Sugar - Maroon 5", "Memories - Maroon 5", "Perfect - Ed Sheeran", "Yellow - Coldplay"], correct: 1 },
+            { q: "6. ¿Cuál es mi apodo?", options: ["Gato", "Pollo", "Flaco", "Chino"], correct: 1 },
+            { q: "7. ¿Cuál es mi talla de zapatos?", options: ["Talla número 6", "Talla número 4.5", "Talla número 5", "Talla número 5.5"], correct: 2 },
+            { q: "8. ¿Cuál es mi comida favorita?", options: ["Tacos al pastor", "Hamburguesas", "Pizza italiana", "Sushi de salmón"], correct: 1 },
+            { q: "9. ¿Cuál es mi Anime favorito?", options: ["Naruto", "Las 100 novias", "Dragon Ball", "One Piece"], correct: 2 },
+            { q: "10. ¿Quién es mi Spiderman favorito?", options: ["Andrew Garfield", "Tom Holland", "Miles Morales", "Tobey Maguire"], correct: 3 }
+        ];
+
+        let currentQuizIndex = 0;
+
+        function nextScreen(current, next) {
+            document.getElementById(`screen-${current}`).classList.add('hidden');
+            document.getElementById(`screen-${next}`).classList.remove('hidden');
+            if(next === 'quiz') loadQuiz();
+        }
+
+        // --- MANEJO DEL QUIZ ---
+        function loadQuiz() {
+            const quiz = myQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `${currentQuizIndex + 1}/10`;
+            document.getElementById('quiz-question').innerText = quiz.q;
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = "";
+            document.getElementById('error-msg').classList.add('hidden');
+
+            quiz.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = "option-card";
+                div.innerHTML = `<div class="option-badge">${String.fromCharCode(65+i)}</div><div class="option-text">${opt}</div>`;
+                div.onclick = () => checkAnswer(i);
+                container.appendChild(div);
+            });
+        }
+
+        function checkAnswer(index) {
+            if (index === myQuestions[currentQuizIndex].correct) {
+                currentQuizIndex++;
+                if (currentQuizIndex < myQuestions.length) {
+                    loadQuiz();
+                } else {
+                    nextScreen('quiz', 'date');
+                }
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+            }
+        }
+
+        // --- FECHA Y HORA ---
+        function saveDateTime() {
+            const d = document.getElementById('input-date').value;
+            const t = document.getElementById('input-time').value;
+            if(!d || !t) { alert("Por favor selecciona una fecha y hora válidas."); return; }
+            userData.date = d; userData.time = t;
+            nextScreen('date', 'activity');
+        }
+
+        // --- MANEJO DE ACTIVIDADES DINÁMICAS ---
+        function selectActivity(element, value) {
+            const cards = element.parentElement.querySelectorAll('.option-card');
+            cards.forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            userData.mainPlan = value;
+        }
+
+        function goToSubActivity() {
+            if(!userData.mainPlan) { alert("Selecciona una opción."); return; }
+            
+            const title = document.getElementById('subactivity-title');
+            const img = document.getElementById('subactivity-img');
+            const container = document.getElementById('subactivity-options');
+            container.innerHTML = "";
+            userData.subPlan = ""; // Reset anterior
+
+            let subOptions = [];
+
+            if(userData.mainPlan.includes('comer')) {
+                title.innerText = "¿Qué tipo de comida se te antoja?";
+                img.src = "https://i.pinimg.com/originals/ae/49/7c/ae497c36a32338144070a27e462d733e.jpg";
+                subOptions = ["Hamburguesas deliciosas 🍔", "Tacos con todo 🌮", "Sushi especial 🍣", "Algún postre dulce 🥞"];
+            } else if(userData.mainPlan.includes('pasear')) {
+                title.innerText = "¿A dónde prefieres ir a caminar?";
+                img.src = "https://i.pinimg.com/originals/de/8a/ef/de8aef4070a7df06443abec8f4e2f94d.jpg";
+                subOptions = ["Un parque tranquilo 🌳", "Un centro comercial 🛍️", "Una plaza bonita 🏛️", "Paseo nocturno 🌙"];
+            } else if(userData.mainPlan.includes('cine')) {
+                title.innerText = "¿Qué género de película prefieres?";
+                img.src = "https://i.pinimg.com/originals/18/8c/d7/188cd72ef1572979268686940fb68e4c.jpg";
+                subOptions = ["Terror / Suspenso 👻", "Comedia Romántica 🥰", "Acción / Ciencia Ficción 🍿", "Animada / Dibujos 🧸"];
+            } else {
+                title.innerText = "Elige el nivel de misterio para la sorpresa:";
+                img.src = "https://i.pinimg.com/736x/8a/3d/8d/8a3d8df589a69634e2c2f7823e5904d6.jpg";
+                subOptions = ["Misterio Nivel Leve 🤔", "Aventura Total Extrema 🗺️", "Plan ultra secreto 🤫", "Tú no te preocupes, yo me encargo 😎"];
+            }
+
+            subOptions.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = "option-card";
+                div.innerHTML = `<div class="option-badge">${String.fromCharCode(65+i)}</div><div class="option-text">${opt}</div>`;
+                div.onclick = () => {
+                    const cards = container.querySelectorAll('.option-card');
+                    cards.forEach(c => c.classList.remove('selected'));
+                    div.classList.add('selected');
+                    userData.subPlan = opt;
+                };
+                container.appendChild(div);
+            });
+
+            nextScreen('activity', 'subactivity');
+        }
+
+        function saveSubSelection() {
+            if(!userData.subPlan) { alert("Por favor, selecciona un detalle para el plan."); return; }
+            buildSummary();
+            nextScreen('subactivity', 'summary');
+        }
+
+        function buildSummary() {
+            const container = document.getElementById('summary-container');
+            container.innerHTML = `
+                <div class="summary-item"><div><strong>📅 Fecha y Hora:</strong> ${userData.date} a las ${userData.time}</div></div>
+                <div class="summary-item"><div><strong>🗺️ Plan Principal:</strong> ${userData.mainPlan}</div></div>
+                <div class="summary-item"><div><strong>✨ Detalle Especial:</strong> ${userData.subPlan}</div></div>
+            `;
+        }
+
+        // --- TRUCO DEL BOTÓN "NO" QUE HUYE (¿ME PERDONAS?) ---
+        const btnNo = document.getElementById("btn-no");
+        
+        function moverBotonNo() {
+            const contenedor = document.querySelector(".window");
+            const maxX = contenedor.clientWidth - btnNo.clientWidth - 40;
+            const maxY = contenedor.clientHeight - btnNo.clientHeight - 80;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            btnNo.style.left = randomX + "px";
+            btnNo.style.top = randomY + "px";
+        }
+
+        btnNo.addEventListener("mouseover", moverBotonNo);
+        btnNo.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            moverBotonNo();
+        });
+
+        // --- ACCIÓN FINAL: CONFETI Y ENVIAR WHATSAPP ---
+        function finalSuccess() {
+            nextScreen('forgive', 'success');
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+            const mensaje = `¡Te perdono! ❤️ Confirmamos nuestra salida el día ${userData.date} a las ${userData.time}. El plan será ${userData.mainPlan} (Específicamente: ${userData.subPlan}). ¡Te amo! Pollo 🥰`;
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            
+            // REEMPLAZA AQUÍ: Pon tu número con código de país (Ej: 521XXXXXXXXXX)
+            const tuTelefono = "525621903394"; 
+
+            setTimeout(() => {
+                window.open(`https://api.whatsapp.com/send?phone=${tuTelefono}&text=${mensajeCodificado}`, '_blank');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
