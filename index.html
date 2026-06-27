@@ -208,7 +208,7 @@
     <div class="window">
         
         <div id="screen-1">
-            <img class="meme-img" src="https://i.postimg.co/YCDmKCrh/cat-typing.gif">
+            <img class="meme-img" src="inicio.gif">
             <h1>Hola, mi niña... 🥺</h1>
             <div class="code-line">// ejecutando: <span>sistema_reconciliacion.sh</span></div>
             <p style="color: var(--text-muted); margin-bottom: 25px;">Para acceder al panel de control, primero debes verificar que eres tú respondiendo este test de identidad_</p>
@@ -216,7 +216,7 @@
         </div>
 
         <div id="screen-quiz" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/wT97g60V/gato-pensando.jpg">
+            <img class="meme-img" src="quiz.jpg">
             <h1>Verificación de Seguridad</h1>
             <div class="code-line">// progreso: <span id="quiz-progress">1/10</span></div>
             <p id="quiz-question" style="font-weight: 600; margin-bottom: 20px; min-height: 45px;"></p>
@@ -225,7 +225,7 @@
         </div>
 
         <div id="screen-date" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/zfBvQCv7/gato-perro-fecha.jpg">
+            <img class="meme-img" src="fecha.jpg">
             <h1>¡Identidad confirmada! Elige una fecha 📅</h1>
             <div class="code-line">// módulo: <span>agenda_scheduler.sync</span></div>
             <div class="form-group">
@@ -240,7 +240,7 @@
         </div>
 
         <div id="screen-activity" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/zfBvQCv7/gato-perro-fecha.jpg">
+            <img class="meme-img" src="fecha.jpg">
             <h1>¿Qué te gustaría hacer? 🗺️</h1>
             <div class="code-line">// módulo: <span>actividad_principal.config</span></div>
             <div class="options-list">
@@ -253,7 +253,7 @@
                 <div class="option-card" onclick="selectActivity(this, 'Ir al cine 🎬')">
                     <div class="option-badge">C</div><div class="option-text">Ir al cine</div>
                 </div>
-  }              <div class="option-card" onclick="selectActivity(this, 'Aventura Sorpresa ✨')">
+                <div class="option-card" onclick="selectActivity(this, 'Aventura Sorpresa ✨')">
                     <div class="option-badge">D</div><div class="option-text">Aventura Sorpresa</div>
                 </div>
             </div>
@@ -269,7 +269,7 @@
         </div>
 
         <div id="screen-summary" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/DzzYgXp4/gato-triste-perdon.jpg">
+            <img class="meme-img" src="perdon.jpg">
             <h1>Resumen del Itinerario</h1>
             <div class="code-line">// compilación: <span>terminada exitosamente</span></div>
             <div id="summary-container" style="margin-bottom: 25px;"></div>
@@ -277,7 +277,7 @@
         </div>
 
         <div id="screen-forgive" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/DzzYgXp4/gato-triste-perdon.jpg">
+            <img class="meme-img" src="perdon.jpg">
             <h1>Entonces... ¿Me perdonas? 🥺❤️</h1>
             <div class="code-line" style="color: var(--error-red);">// warning: excepcion_no_permitida detectada</div>
             <div class="btn-group">
@@ -287,7 +287,7 @@
         </div>
 
         <div id="screen-success" class="hidden">
-            <img class="meme-img" src="https://i.postimg.co/m2tkWp6G/gato-lentes-fiesta.jpg">
+            <img class="meme-img" src="exito.jpg">
             <h1 style="color: #ec4899;">¡Sabía que sí! 🥰🎉</h1>
             <div class="code-line">// status: <span>SUCCESS</span></div>
             <p style="color: var(--text-muted); font-size: 14px;">Redirigiendo a tu WhatsApp con los datos confirmados... 💜</p>
@@ -377,19 +377,19 @@
 
             if(userData.mainPlan.includes('comer')) {
                 title.innerText = "¿Qué tipo de comida prefieres?";
-                img.src = "https://i.postimg.co/zfBvQCv7/gato-perro-fecha.jpg";
+                img.src = "fecha.jpg";
                 subOptions = ["Hamburguesas deliciosas 🍔", "Tacos con todo 🌮", "Sushi especial 🍣", "Algún postre dulce o helado 🥞"];
             } else if(userData.mainPlan.includes('pasear')) {
                 title.innerText = "¿A dónde te gustaría que vayamos?";
-                img.src = "https://i.postimg.co/zfBvQCv7/gato-perro-fecha.jpg";
+                img.src = "fecha.jpg";
                 subOptions = ["Un parque tranquilo 🌳", "Un centro comercial 🛍️", "Una plaza bonita o centro histórico 🏛️", "Caminar de noche bajo las estrellas 🌙"];
             } else if(userData.mainPlan.includes('cine')) {
                 title.innerText = "¿Qué tipo de película seleccionamos?";
-                img.src = "https://i.postimg.co/wT97g60V/gato-pensando.jpg";
+                img.src = "quiz.jpg";
                 subOptions = ["Terror / Suspenso 👻", "Comedia Romántica 🥰", "Acción / Ciencia Ficción (¡Spiderman!) 🍿", "Animada o de fantasía 🧸"];
             } else {
                 title.innerText = "Elige el nivel de misterio para la sorpresa:";
-                img.src = "https://i.postimg.co/wT97g60V/gato-pensando.jpg";
+                img.src = "quiz.jpg";
                 subOptions = ["Misterio Leve 🤔", "Aventura Total Extrema 🗺️", "Plan ultra secreto de Pollo 🤫", "Tú no te preocupes, déjamelo a mí 😎"];
             }
 
