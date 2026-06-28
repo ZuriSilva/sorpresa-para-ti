@@ -43,8 +43,8 @@
         }
 
         .meme-img {
-            max-width: 140px;
-            height: 140px;
+            max-width: 150px;
+            height: 150px;
             object-fit: contain;
             margin: 10px auto;
             border-radius: 16px;
@@ -216,7 +216,7 @@
         </div>
 
         <div id="screen-quiz" class="hidden">
-            <img class="meme-img" src="quiz.jpg">
+            <img class="meme-img" id="quiz-img" src="pensando.gif">
             <h1>Verificación de Seguridad</h1>
             <div class="code-line">// progreso: <span id="quiz-progress">1/10</span></div>
             <p id="quiz-question" style="font-weight: 600; margin-bottom: 20px; min-height: 45px;"></p>
@@ -225,7 +225,7 @@
         </div>
 
         <div id="screen-date" class="hidden">
-            <img class="meme-img" src="fecha.jpg">
+            <img class="meme-img" src="cita.gif">
             <h1>¡Identidad confirmada! Elige una fecha 📅</h1>
             <div class="code-line">// módulo: <span>agenda_scheduler.sync</span></div>
             <div class="form-group">
@@ -240,20 +240,20 @@
         </div>
 
         <div id="screen-activity" class="hidden">
-            <img class="meme-img" src="fecha.jpg">
+            <img class="meme-img" id="activity-main-img" src="pinguinos.gif">
             <h1>¿Qué te gustaría hacer? 🗺️</h1>
             <div class="code-line">// módulo: <span>actividad_principal.config</span></div>
             <div class="options-list">
-                <div class="option-card" onclick="selectActivity(this, 'Salir a comer 🍔')">
+                <div class="option-card" onclick="selectActivity(this, 'Salir a comer 🍔', 'pinguinos.gif')">
                     <div class="option-badge">A</div><div class="option-text">Salir a comer</div>
                 </div>
-                <div class="option-card" onclick="selectActivity(this, 'Salir a pasear 🌳')">
+                <div class="option-card" onclick="selectActivity(this, 'Salir a pasear 🌳', 'gatitorosa.gif')">
                     <div class="option-badge">B</div><div class="option-text">Salir a pasear</div>
                 </div>
-                <div class="option-card" onclick="selectActivity(this, 'Ir al cine 🎬')">
+                <div class="option-card" onclick="selectActivity(this, 'Ir al cine 🎬', 'spidercat.gif')">
                     <div class="option-badge">C</div><div class="option-text">Ir al cine</div>
                 </div>
-                <div class="option-card" onclick="selectActivity(this, 'Aventura Sorpresa ✨')">
+                <div class="option-card" onclick="selectActivity(this, 'Aventura Sorpresa ✨', 'dragon.gif')">
                     <div class="option-badge">D</div><div class="option-text">Aventura Sorpresa</div>
                 </div>
             </div>
@@ -269,7 +269,7 @@
         </div>
 
         <div id="screen-summary" class="hidden">
-            <img class="meme-img" src="perdon.jpg">
+            <img class="meme-img" src="enamorado.gif">
             <h1>Resumen del Itinerario</h1>
             <div class="code-line">// compilación: <span>terminada exitosamente</span></div>
             <div id="summary-container" style="margin-bottom: 25px;"></div>
@@ -298,17 +298,18 @@
     <script>
         let userData = { date: '', time: '', mainPlan: '', subPlan: '' };
 
+        // Aquí asigné tus archivos según la temática de la pregunta
         const myQuestions = [
-            { q: "1. ¿Cuáles son mis apellidos?", options: ["Silva Lopez", "Ramirez Marquez", "Silva Marquez", "Marquez Silva"], correct: 2 },
-            { q: "2. ¿Qué es algo sin lo que yo no pueda vivir?", options: ["Ver series de televisión", "El café por la mañana", "Sin un mensaje tuyo", "Mi consola de videojuegos"], correct: 2 },
-            { q: "3. ¿Cuándo es mi cumpleaños?", options: ["19 de Mayo", "05 de Mayo", "12 de Junio", "19 de Abril"], correct: 0 },
-            { q: "4. ¿Cuál es mi color favorito?", options: ["Solo el Azul", "Solo el Negro", "Rojo y Blanco", "Azul y Negro"], correct: 3 },
-            { q: "5. ¿Cuál es mi canción favorita?", options: ["Sugar - Maroon 5", "Memories - Maroon 5", "Perfect - Ed Sheeran", "Yellow - Coldplay"], correct: 1 },
-            { q: "6. ¿Cuál es mi apodo?", options: ["Chino", "Pollo", "Gato", "Flaco"], correct: 1 },
-            { q: "7. ¿Cuál es mi talla de zapatos?", options: ["Talla número 6", "Talla número 5", "Talla número 4.5", "Talla número 5.5"], correct: 1 },
-            { q: "8. ¿Cuál es mi comida favorita?", options: ["Hamburguesas", "Tacos al pastor", "Pizza", "Sushi"], correct: 0 },
-            { q: "9. ¿Cuál es mi Anime favorito?", options: ["Naruto", "Las 100 novias", "Dragon Ball", "One Piece"], correct: 2 },
-            { q: "10. ¿Quién es mi Spiderman favorito?", options: ["Andrew Garfield", "Tom Holland", "Tobey Maguire", "Miles Morales"], correct: 2 }
+            { q: "1. ¿Cuáles son mis apellidos?", options: ["Silva Lopez", "Ramirez Marquez", "Silva Marquez", "Marquez Silva"], correct: 2, gif: "pensando.gif" },
+            { q: "2. ¿Qué es algo sin lo que yo no pueda vivir?", options: ["Ver series de televisión", "El café por la mañana", "Sin un mensaje tuyo", "Mi consola de videojuegos"], correct: 2, gif: "enamorado.gif" },
+            { q: "3. ¿Cuándo es mi cumpleaños?", options: ["19 de Mayo", "05 de Mayo", "12 de Junio", "19 de Abril"], correct: 0, gif: "cumpleaños.gif" },
+            { q: "4. ¿Cuál es mi color favorito?", options: ["Solo el Azul", "Solo el Negro", "Rojo y Blanco", "Azul y Negro"], correct: 3, gif: "gatitorosa.gif" },
+            { q: "5. ¿Cuál es mi canción favorita?", options: ["Sugar - Maroon 5", "Memories - Maroon 5", "Perfect - Ed Sheeran", "Yellow - Coldplay"], correct: 1, gif: "fiesta.gif" },
+            { q: "6. ¿Cuál es mi apodo?", options: ["Chino", "Pollo", "Gato", "Flaco"], correct: 1, gif: "pinguinos.gif" },
+            { q: "7. ¿Cuál es mi talla de zapatos?", options: ["Talla número 6", "Talla número 5", "Talla número 4.5", "Talla número 5.5"], correct: 1, gif: "pensando.gif" },
+            { q: "8. ¿Cuál es mi comida favorita?", options: ["Hamburguesas", "Tacos al pastor", "Pizza", "Sushi"], correct: 0, gif: "pinguinos.gif" },
+            { q: "9. ¿Cuál es mi Anime favorito?", options: ["Naruto", "Las 100 novias", "Dragon Ball", "One Piece"], correct: 2, gif: "dragon.gif" },
+            { q: "10. ¿Quién es mi Spiderman favorito?", options: ["Andrew Garfield", "Tom Holland", "Tobey Maguire", "Miles Morales"], correct: 2, gif: "spidercat.gif" }
         ];
 
         let currentQuizIndex = 0;
@@ -323,6 +324,7 @@
             const quiz = myQuestions[currentQuizIndex];
             document.getElementById('quiz-progress').innerText = `${currentQuizIndex + 1}/10`;
             document.getElementById('quiz-question').innerText = quiz.q;
+            document.getElementById('quiz-img').src = quiz.gif; 
             const container = document.getElementById('quiz-options');
             container.innerHTML = "";
             document.getElementById('error-msg').classList.add('hidden');
@@ -357,11 +359,12 @@
             nextScreen('date', 'activity');
         }
 
-        function selectActivity(element, value) {
+        function selectActivity(element, value, gifName) {
             const cards = element.parentElement.querySelectorAll('.option-card');
             cards.forEach(c => c.classList.remove('selected'));
             element.classList.add('selected');
             userData.mainPlan = value;
+            document.getElementById('activity-main-img').src = gifName; 
         }
 
         function goToSubActivity() {
@@ -377,19 +380,19 @@
 
             if(userData.mainPlan.includes('comer')) {
                 title.innerText = "¿Qué tipo de comida prefieres?";
-                img.src = "fecha.jpg";
+                img.src = "pinguinos.gif";
                 subOptions = ["Hamburguesas deliciosas 🍔", "Tacos con todo 🌮", "Sushi especial 🍣", "Algún postre dulce o helado 🥞"];
             } else if(userData.mainPlan.includes('pasear')) {
-                title.innerText = "¿A dónde te gustaría que vayamos?";
-                img.src = "fecha.jpg";
+                title.innerText = Navideño o al aire libre ¿A dónde vamos?;
+                img.src = "gatitorosa.gif";
                 subOptions = ["Un parque tranquilo 🌳", "Un centro comercial 🛍️", "Una plaza bonita o centro histórico 🏛️", "Caminar de noche bajo las estrellas 🌙"];
             } else if(userData.mainPlan.includes('cine')) {
                 title.innerText = "¿Qué tipo de película seleccionamos?";
-                img.src = "quiz.jpg";
+                img.src = "spidercat.gif";
                 subOptions = ["Terror / Suspenso 👻", "Comedia Romántica 🥰", "Acción / Ciencia Ficción (¡Spiderman!) 🍿", "Animada o de fantasía 🧸"];
             } else {
                 title.innerText = "Elige el nivel de misterio para la sorpresa:";
-                img.src = "quiz.jpg";
+                img.src = "dragon.gif";
                 subOptions = ["Misterio Leve 🤔", "Aventura Total Extrema 🗺️", "Plan ultra secreto de Pollo 🤫", "Tú no te preocupes, déjamelo a mí 😎"];
             }
 
@@ -424,7 +427,6 @@
             `;
         }
 
-        // --- TRUCO BOTÓN HUYENTE ---
         const btnNo = document.getElementById("btn-no");
         function moverBotonNo() {
             const contenedor = document.querySelector(".window");
@@ -441,7 +443,6 @@
         btnNo.addEventListener("mouseover", moverBotonNo);
         btnNo.addEventListener("touchstart", (e) => { e.preventDefault(); moverBotonNo(); });
 
-        // --- WHATSAPP REDIRECT ---
         function finalSuccess() {
             nextScreen('forgive', 'success');
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
@@ -449,8 +450,7 @@
             const mensaje = `¡Te perdono! ❤️ Confirmamos nuestra salida el día ${userData.date} a las ${userData.time}. El plan será: ${userData.mainPlan} (${userData.subPlan}). ¡Te amo de parte de tu Pollo! 🥰`;
             const mensajeCodificado = encodeURIComponent(mensaje);
             
-            // REEMPLAZA AQUÍ: Pon tu número con código de país (Ej: 521XXXXXXXXXX)
-            const tuTelefono = "525621903394"; 
+            const tuTelefono = "525621903394"; // Reemplaza por tu número real
 
             setTimeout(() => {
                 window.open(`https://api.whatsapp.com/send?phone=${tuTelefono}&text=${mensajeCodificado}`, '_blank');
