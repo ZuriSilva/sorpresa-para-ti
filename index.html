@@ -266,6 +266,7 @@
             <div class="code-line">// sub_modulo: <span>detalles_evento.io</span></div>
             <div id="subactivity-options" class="options-list"></div>
             <button class="btn-primary" onclick="saveSubSelection()">[ GUARDAR CONFIGURACIÓN ]</button>
+            <button class="btn-primary" onclick="nextScreen('subactivity', 'activity')" style="background-color: #6b7280; margin-top: 10px;">[ ↩ REGRESAR A PLANES ]</button>
         </div>
 
         <div id="screen-summary" class="hidden">
@@ -274,6 +275,7 @@
             <div class="code-line">// compilación: <span>terminada exitosamente</span></div>
             <div id="summary-container" style="margin-bottom: 25px;"></div>
             <button class="btn-primary" onclick="nextScreen('summary', 'forgive')">[ ENVIAR APROBACIÓN FINAL ]</button>
+            <button class="btn-primary" onclick="nextScreen('summary', 'subactivity')" style="background-color: #6b7280; margin-top: 10px;">[ ↩ MODIFICAR DETALLES ]</button>
         </div>
 
         <div id="screen-forgive" class="hidden">
@@ -373,7 +375,6 @@
             const img = document.getElementById('subactivity-img');
             const container = document.getElementById('subactivity-options');
             container.innerHTML = "";
-            userData.subPlan = ""; 
 
             let subOptions = [];
 
@@ -398,6 +399,8 @@
             subOptions.forEach((opt, i) => {
                 const div = document.createElement('div');
                 div.className = "option-card";
+                if(userData.subPlan === opt) div.classList.add('selected');
+                
                 div.innerHTML = `<div class="option-badge">${String.fromCharCode(65+i)}</div><div class="option-text">${opt}</div>`;
                 div.onclick = () => {
                     const cards = container.querySelectorAll('.option-card');
