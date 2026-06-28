@@ -212,7 +212,7 @@
             <h1>Hola, mi niña... 🥺</h1>
             <div class="code-line">// ejecutando: <span>sistema_reconciliacion.sh</span></div>
             <p style="color: var(--text-muted); margin-bottom: 25px;">Para acceder al panel de control, primero debes verificar que eres tú respondiendo este test de identidad_</p>
-            <button class="btn-primary" onclick="nextScreen(1, 'quiz')">[ INICIAR PROTOCOLO ]</button>
+            <button class="btn-primary" onclick="nextScreen('1', 'quiz')">[ INICIAR PROTOCOLO ]</button>
         </div>
 
         <div id="screen-quiz" class="hidden">
@@ -298,7 +298,6 @@
     <script>
         let userData = { date: '', time: '', mainPlan: '', subPlan: '' };
 
-        // Aquí asigné tus archivos según la temática de la pregunta
         const myQuestions = [
             { q: "1. ¿Cuáles son mis apellidos?", options: ["Silva Lopez", "Ramirez Marquez", "Silva Marquez", "Marquez Silva"], correct: 2, gif: "pensando.gif" },
             { q: "2. ¿Qué es algo sin lo que yo no pueda vivir?", options: ["Ver series de televisión", "El café por la mañana", "Sin un mensaje tuyo", "Mi consola de videojuegos"], correct: 2, gif: "enamorado.gif" },
@@ -383,7 +382,7 @@
                 img.src = "pinguinos.gif";
                 subOptions = ["Hamburguesas deliciosas 🍔", "Tacos con todo 🌮", "Sushi especial 🍣", "Algún postre dulce o helado 🥞"];
             } else if(userData.mainPlan.includes('pasear')) {
-                title.innerText = Navideño o al aire libre ¿A dónde vamos?;
+                title.innerText = "¿A dónde nos vamos a pasear?";
                 img.src = "gatitorosa.gif";
                 subOptions = ["Un parque tranquilo 🌳", "Un centro comercial 🛍️", "Una plaza bonita o centro histórico 🏛️", "Caminar de noche bajo las estrellas 🌙"];
             } else if(userData.mainPlan.includes('cine')) {
@@ -450,7 +449,7 @@
             const mensaje = `¡Te perdono! ❤️ Confirmamos nuestra salida el día ${userData.date} a las ${userData.time}. El plan será: ${userData.mainPlan} (${userData.subPlan}). ¡Te amo de parte de tu Pollo! 🥰`;
             const mensajeCodificado = encodeURIComponent(mensaje);
             
-            const tuTelefono = "525621903394"; // Reemplaza por tu número real
+            const tuTelefono = "525621903394"; // Pon tu número real con código de país aquí
 
             setTimeout(() => {
                 window.open(`https://api.whatsapp.com/send?phone=${tuTelefono}&text=${mensajeCodificado}`, '_blank');
